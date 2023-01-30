@@ -2,6 +2,9 @@
 # %% IMPORTS
 from pandas import read_csv, concat, DataFrame
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 
 # %% READ DATA
 train = read_csv('./data/train.csv')
@@ -39,7 +42,7 @@ df_info = DataFrame(
         'Column type': train.dtypes
         })
 
-df_info
+df_info.head(74)
 
 
 # %% TARGET COLUMN
@@ -50,4 +53,15 @@ numerical_cols = (train.select_dtypes(include=['int64', 'float64']).columns.toli
 categorical_cols = (train.select_dtypes(exclude=['int64', 'float64']).columns.tolist())
 
 
+# %% PLOT CHARTS
+sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0)})
+plt.figure(figsize=(24,60))
+col_count = 1
+
+for col in numerical_cols[:37]:
+    plt.subplot(8,5,col_count)
+    sns.distplot(x=train[col], kde=False, bins=10)
+    plt.title(f'Histogram for {col}')
     
+    col_count += 1
+# %%
